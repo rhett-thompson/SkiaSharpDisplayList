@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>SkiaSharpDisplayList</id>
+    <!--*-->
+    <version>1.0.0</version>
+    <title>SkiaSharpDisplayList</title>
+    <!--*-->
+    <authors>Rhett Thompson</authors>
+    <owners>Rhett Thompson</owners>
+    <licenseUrl>https://raw.githubusercontent.com/rhett-thompson/SkiaSharpDisplayList/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/rhett-thompson/SkiaSharpDisplayList</projectUrl>
+    <!--
+    
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>A simple display list for SkiaSharp</description>
+    <!--*-->
+    <releaseNotes>First release - only supports WindowsForms, still a work in progress</releaseNotes>
+    <copyright>Copyright © Rhett Thompson 2018</copyright>
+    <tags>
+    </tags>
+    <dependencies>
+      <!--
+      <dependency id="SampleDependency" version="1.0" />
+-->
+    </dependencies>
+  </metadata>
+</package>
