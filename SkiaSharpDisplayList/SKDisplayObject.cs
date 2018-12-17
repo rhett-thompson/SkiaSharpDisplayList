@@ -24,19 +24,23 @@ namespace SkiaSharp.DisplayList
         internal List<(float, float)> boundingPoints = new List<(float, float)>();
         internal bool isStage = false;
         internal SKDisplayObject parentInternal;
+        internal SKDisplayObjectGraphics graphics;
 
         public RenderMethod Render { get; set; }
         public Action Removed { get; set; }
         public Action Added { get; set; }
-
+        
         public delegate void RenderMethod(SKDisplayObjectRenderInfo info, SKDisplayObjectGraphics graphics);
 
         public SKDisplayObject()
         {
-            Children.CollectionChanged += Children_CollectionChanged;
+            Children.CollectionChanged += ChildrenChanged;
+
+            graphics = new SKDisplayObjectGraphics { displayObject = this };
+
         }
 
-        private void Children_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
                 foreach (var i in e.NewItems)
@@ -58,13 +62,9 @@ namespace SkiaSharp.DisplayList
 
             parentInternal = parent;
 
-            var graphics = new SKDisplayObjectGraphics()
-            {
-                canvas = info.canvas,
-                displayObject = this,
-                calculateBounds = CalculateBounds
-            };
-
+            graphics.canvas = info.canvas;
+            graphics.calculateBounds = CalculateBounds;
+            
             if (parent.isStage)
                 graphics.canvas.ResetMatrix();
 
@@ -78,7 +78,7 @@ namespace SkiaSharp.DisplayList
                 addBoundingPoint(0, 0);
 
             Render?.Invoke(info, graphics);
-
+            
             foreach (var child in Children)
             {
                 child.internalRender(this, info);
