@@ -17,11 +17,10 @@ The current release is very rudimentary, but is probably usable for simple User 
 
 There are two main classes that you need to build scenes.
 <dl>
-	<dt>SKDisplayList</dt>
-	<dd>The display list manager class.  It decides when to invalidate your view and calls your <strong>UpdateAction</strong>.  You then need to hook into your view's <strong>PaintSurface</strong> and call the display manager's <strong>Update</strong> method.  The display list has a <strong>Stage</strong> which acts as the root display object of your scene.</dd>
-	
-	<dt>SKDisplayObject</dt>
-	<dd>The basic "display object" unit of your scenes.  You add instances of this class to the Stage display object.  These display objects, in turn have children that get rendered and transformed in respect to their parent's transformation and depth.  You can also inherit from this class to create reusable, purpose built display objects.</dd>
+<dt>SKDisplayList</dt>
+<dd>The display list manager class.  It decides when to invalidate your view and calls your <strong>UpdateAction</strong>.  You then need to hook into your view's <strong>PaintSurface</strong> and call the display manager's <strong>Update</strong> method.  The display list has a <strong>Stage</strong> which acts as the root display object of your scene.</dd>
+<dt>SKDisplayObject</dt>
+<dd>The basic "display object" unit of your scenes.  You add instances of this class to the Stage display object.  These display objects, in turn have children that get rendered and transformed in respect to their parent's transformation and depth.  You can also inherit from this class to create reusable, purpose built display objects.</dd>
 </dl>
 
 Here's some example code.
