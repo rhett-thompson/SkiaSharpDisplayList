@@ -33,7 +33,7 @@ namespace SkiaSharp.DisplayList
 
                             renderInfo.FrameRate = frames / renderInfo.Elapsed;
 
-                            invalidateAction();
+                            updateAction();
 
                             if (renderInfo.Delta < targetFrameTime)
                                 await Task.Delay(TimeSpan.FromSeconds(targetFrameTime - renderInfo.Delta));
@@ -60,12 +60,12 @@ namespace SkiaSharp.DisplayList
         private int frames;
         private float targetFrameTime;
         private SKDisplayObjectRenderInfo renderInfo = new SKDisplayObjectRenderInfo();
-        private Action invalidateAction;
+        private Action updateAction;
 
-        public SKDisplayList(Action InvalidateAction)
+        public SKDisplayList(Action UpdateAction)
         {
             FPSTarget = 60;
-            invalidateAction = InvalidateAction;
+            updateAction = UpdateAction;
             
             Paused = false;
         }
