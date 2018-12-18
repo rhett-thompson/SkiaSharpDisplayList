@@ -1,8 +1,8 @@
 # SkiaSharpDisplayList
-### A simple display list for **SkiaSharp**
+### A simple display list for [SkiaSharp](https://github.com/mono/SkiaSharp)
 ------
 
-A display list implementation for SkiaSharp that's similar to the Adobe Flash/Starling Display List approach.
+A display list implementation for [SkiaSharp](https://github.com/mono/SkiaSharp) that's similar to the Adobe Flash/Starling Display List approach.
 
 The hierarchical structure of display lists have the following benefits:
 * More efficient rendering and reduced memory usage
@@ -12,6 +12,11 @@ The hierarchical structure of display lists have the following benefits:
 * Easier subclassing of display objects
 
 The current release is very rudimentary, but is probably usable for simple User Interface scenarios; with the goal being a "platform" for advanced UI and perhaps 2D games with continued optimization and feature addition. The SkiaSharp.DisplayList package is decoupled from any platform view and only requires a valid SKCanvas each update to work its magic.
+
+<dl>
+	<dt>SKDisplayList</dt>
+	<dd>The display list manager class.  It decides when to invalidate your view and calls your **UpdateAction**.  You then need to hook into your view's **PaintSurface** and call the display manager's **Update** method.</dd>
+</dl>
 
 Here's some example code.
 
