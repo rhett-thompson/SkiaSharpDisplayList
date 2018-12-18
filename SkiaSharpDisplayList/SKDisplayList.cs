@@ -35,7 +35,7 @@ namespace SkiaSharp.DisplayList
 
                             updateAction();
 
-                            if (renderInfo.Delta < targetFrameTime)
+                            //if (renderInfo.Delta < targetFrameTime)
                                 await Task.Delay(TimeSpan.FromSeconds(targetFrameTime - renderInfo.Delta));
 
                         }

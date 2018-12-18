@@ -13,23 +13,35 @@ namespace SkiaSharp.DisplayList
         public SKPoint Position;
         public SKPoint Scale = new SKPoint(1, 1);
         public SKPoint Pivot;
+        public SKSize Size;
         public float Rotation;
-
-        public SKRect Bounds = new SKRect();
-        public SKDisplayObject Parent { get { return parentInternal; } }
-        public bool DrawBounds = false;
-        public SKPaint BoundingBoxPaint = new SKPaint { Color = SKColors.Red, IsStroke = true, StrokeWidth = 1 };
         public bool CalculateBounds = true;
 
+        internal SKRect boundsInternal = new SKRect();
+        public SKRect Bounds
+        {
+            get { return boundsInternal; }
+        }
+
         internal List<(float, float)> boundingPoints = new List<(float, float)>();
-        internal bool isStage = false;
+
+        public bool DrawDebug = false;
+        public SKPaint BoundingBoxPaint = new SKPaint { Color = SKColors.Red, IsStroke = true, StrokeWidth = 1 };
+        public SKPaint SizePaint = new SKPaint { Color = SKColors.Blue, IsStroke = true, StrokeWidth = 2 };
+        public SKPaint PositionPaint = new SKPaint { Color = SKColors.Yellow };
+        public SKPaint PivotPaint = new SKPaint { Color = SKColors.LimeGreen };
+
         internal SKDisplayObject parentInternal;
+        public SKDisplayObject Parent { get { return parentInternal; } }
+
+        internal bool isStage = false;
+
         internal SKDisplayObjectGraphics graphics;
 
         public RenderMethod Render { get; set; }
         public Action Removed { get; set; }
         public Action Added { get; set; }
-        
+
         public delegate void RenderMethod(SKDisplayObjectRenderInfo info, SKDisplayObjectGraphics graphics);
 
         public SKDisplayObject()
@@ -64,7 +76,7 @@ namespace SkiaSharp.DisplayList
 
             graphics.canvas = info.canvas;
             graphics.calculateBounds = CalculateBounds;
-            
+
             if (parent.isStage)
                 graphics.canvas.ResetMatrix();
 
@@ -78,7 +90,7 @@ namespace SkiaSharp.DisplayList
                 addBoundingPoint(0, 0);
 
             Render?.Invoke(info, graphics);
-            
+
             foreach (var child in Children)
             {
                 child.internalRender(this, info);
@@ -91,8 +103,13 @@ namespace SkiaSharp.DisplayList
 
             }
 
-            if (DrawBounds && CalculateBounds)
-                graphics.DrawRect(Bounds, BoundingBoxPaint);
+            if (DrawDebug)
+            {
+                graphics.DrawRect(0, 0, Size.Width, Size.Height, SizePaint);
+                graphics.DrawRect(boundsInternal, BoundingBoxPaint);
+                graphics.DrawCircle(0, 0, 2, PositionPaint);
+                graphics.DrawCircle(0, 0, 2, PivotPaint);
+            }
 
         }
 
@@ -139,10 +156,10 @@ namespace SkiaSharp.DisplayList
         internal void updateBounds()
         {
 
-            Bounds.Left = boundingPoints.Min(x => x.Item1);
-            Bounds.Top = boundingPoints.Min(x => x.Item2);
-            Bounds.Right = boundingPoints.Max(x => x.Item1);
-            Bounds.Bottom = boundingPoints.Max(x => x.Item2);
+            boundsInternal.Left = boundingPoints.Min(x => x.Item1);
+            boundsInternal.Top = boundingPoints.Min(x => x.Item2);
+            boundsInternal.Right = boundingPoints.Max(x => x.Item1);
+            boundsInternal.Bottom = boundingPoints.Max(x => x.Item2);
 
         }
 
