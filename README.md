@@ -1,7 +1,17 @@
 # SkiaSharpDisplayList
-A simple display list for **SkiaSharp**
+### A simple display list for **SkiaSharp**
+------
 
-*Currently only supports supports WinForms*
+A display list implementation for SkiaSharp that's similar to the Adobe Flash/Starling Display List approach.
+
+The hierarchical structure of display lists have the following benefits:
+⋅⋅* More efficient rendering and reduced memory usage
+⋅⋅* Improved depth management
+⋅⋅* Full traversal of the display list
+⋅⋅* Off-list display objects
+⋅⋅* Easier subclassing of display objects
+
+The current release is very rudimentary, but is probably usable for simple User Interface scenarios; with the goal being a "platform" for advanced UI and perhaps 2D games with continued optimization and feature addition. The SkiaSharp.DisplayList package is decoupled from any platform view and only requires a valid SKCanvas each update to work its magic.
 
 Here's some example code.
 
@@ -46,4 +56,27 @@ orbit.Render = (info, graphics) =>
 
 };
 blueCircle.Children.Add(orbit);
+
+//a subclass of SKControl for convenience
+public class SKDisplayListControl : SKControl
+{
+
+	public SKDisplayList DisplayList;
+
+	public SKDisplayListControl()
+	{
+
+	    SetStyle(
+		ControlStyles.AllPaintingInWmPaint |
+		ControlStyles.UserPaint |
+		ControlStyles.DoubleBuffer,
+		true);
+
+	    DisplayList = new SKDisplayList(() => { Invalidate(); });
+	    PaintSurface += (object sender, SKPaintSurfaceEventArgs e) => { DisplayList.Update(e.Surface.Canvas); };
+
+	}
+
+}
+
 ```
