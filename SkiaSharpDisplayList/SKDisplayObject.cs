@@ -10,10 +10,18 @@ namespace SkiaSharp.DisplayList
     {
         public ObservableCollection<SKDisplayObject> Children { get; } = new ObservableCollection<SKDisplayObject>();
 
-        public SKPoint Position;
-        public SKPoint Scale = new SKPoint(1, 1);
-        public SKPoint Pivot;
-        public SKSize Size;
+        public float X { get; set; }
+        public float Y { get; set; }
+        
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
+
+        public float PivotX { get; set; }
+        public float PivotY { get; set; }
+
+        public float Width { get; set; }
+        public float Height { get; set; }
+        
         public float Rotation;
         public bool CalculateBounds = true;
 
@@ -46,6 +54,10 @@ namespace SkiaSharp.DisplayList
 
         public SKDisplayObject()
         {
+
+            ScaleX = 1;
+            ScaleY = 1;
+
             Children.CollectionChanged += ChildrenChanged;
 
             graphics = new SKDisplayObjectGraphics { displayObject = this };
@@ -80,10 +92,10 @@ namespace SkiaSharp.DisplayList
             if (parent.isStage)
                 graphics.canvas.ResetMatrix();
 
-            graphics.canvas.Scale(Scale.X, Scale.Y, Pivot.X, Pivot.Y);
-            graphics.canvas.RotateRadians(Rotation, Pivot.X, Pivot.Y);
-            graphics.canvas.Translate(Position.X, Position.Y);
-
+            graphics.canvas.Scale(ScaleX, ScaleY, PivotX, PivotY);
+            graphics.canvas.RotateRadians(Rotation, PivotX, PivotY);
+            graphics.canvas.Translate(X, Y);
+            
             boundingPoints.Clear();
 
             if (parent.isStage)
@@ -105,7 +117,7 @@ namespace SkiaSharp.DisplayList
 
             if (DrawDebug)
             {
-                graphics.DrawRect(0, 0, Size.Width, Size.Height, SizePaint);
+                graphics.DrawRect(0, 0, Width, Height, SizePaint);
                 graphics.DrawRect(boundsInternal, BoundingBoxPaint);
                 graphics.DrawCircle(0, 0, 2, PositionPaint);
                 graphics.DrawCircle(0, 0, 2, PivotPaint);

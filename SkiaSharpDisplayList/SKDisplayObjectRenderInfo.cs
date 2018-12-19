@@ -2,9 +2,9 @@
 {
     public sealed class SKDisplayObjectRenderInfo
     {
-        public float Delta { get; set; }
-        public float Elapsed { get; set; }
-        public float FrameRate { get; set; }
+        public double Delta { get; set; }
+        public double Elapsed { get; set; }
+        public double FrameRate { get; set; }
 
         internal SKCanvas canvas { get; set; }
 

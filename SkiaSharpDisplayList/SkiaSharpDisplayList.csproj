@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Easing.cs" />
     <Compile Include="SKDisplayList.cs" />
     <Compile Include="SKDisplayObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
